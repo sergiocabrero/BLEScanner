@@ -12,6 +12,7 @@
 		49354A561FE83D5100BF79B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49354A541FE83D5100BF79B7 /* Main.storyboard */; };
 		49354A581FE83D5100BF79B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49354A571FE83D5100BF79B7 /* Assets.xcassets */; };
 		49354A5B1FE83D5100BF79B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49354A591FE83D5100BF79B7 /* LaunchScreen.storyboard */; };
+		49354A631FE9AB6300BF79B7 /* NearableScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49354A621FE9AB6300BF79B7 /* NearableScanner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		49354A571FE83D5100BF79B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49354A5A1FE83D5100BF79B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		49354A5C1FE83D5100BF79B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49354A621FE9AB6300BF79B7 /* NearableScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearableScanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				49354A501FE83D5100BF79B7 /* AppDelegate.swift */,
 				49354A521FE83D5100BF79B7 /* ViewController.swift */,
+				49354A621FE9AB6300BF79B7 /* NearableScanner.swift */,
 				49354A541FE83D5100BF79B7 /* Main.storyboard */,
 				49354A571FE83D5100BF79B7 /* Assets.xcassets */,
 				49354A591FE83D5100BF79B7 /* LaunchScreen.storyboard */,
@@ -97,6 +100,11 @@
 					49354A4C1FE83D5100BF79B7 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -136,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49354A631FE9AB6300BF79B7 /* NearableScanner.swift in Sources */,
 				49354A531FE83D5100BF79B7 /* ViewController.swift in Sources */,
 				49354A511FE83D5100BF79B7 /* AppDelegate.swift in Sources */,
 			);
