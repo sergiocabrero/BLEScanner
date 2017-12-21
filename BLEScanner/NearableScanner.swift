@@ -42,7 +42,7 @@ class NearableData{
     var previousMotionStateDuration: MotionDuration!
     var currentMotionStateDuration: MotionDuration!
     var asString: String {
-        return "nearableId: \(nearableId), temperature: \(temperature), isMoving: \(isMoving), Acc: \(acceleration), motion duration: \(previousMotionStateDuration.describe),\(currentMotionStateDuration.describe)"
+        return "nearableId: \(nearableId!), temperature: \(temperature!), isMoving: \(isMoving!), Acc: \(acceleration!), motion duration: \(previousMotionStateDuration.describe),\(currentMotionStateDuration.describe)"
     }
     
     init?(data: NSData){
@@ -95,8 +95,8 @@ class NearableData{
         //     - 0b10 ("2") => hours
         //     - 0b11 ("3") => days if NUMBER is < 32
         //                     if it's >= 32, then it's "NUMBER - 32" weeks
+        currentMotionStateDuration = parseMotionStateDuration(data.bytes.load(fromByteOffset: 19, as: UInt8.self))
         previousMotionStateDuration = parseMotionStateDuration(data.bytes.load(fromByteOffset: 20, as: UInt8.self))
-        currentMotionStateDuration = parseMotionStateDuration(data.bytes.load(fromByteOffset: 20, as: UInt8.self))
 
     }
     
