@@ -6,6 +6,7 @@
 //  Copyright © 2017 Sergio Cabrero Barros. All rights reserved.
 //
 import CoreBluetooth
+import UIKit
 
 struct Acceleration{
     var x, y, z: Double
@@ -17,6 +18,9 @@ struct Acceleration{
 struct MotionDuration{
     var unit: String
     var number: UInt8
+    var describe: String {
+        return String(number) + " " + unit
+    }
 }
 
 // Extend Data to generate hex Strings from bytes: https://stackoverflow.com/questions/39075043/how-to-convert-data-to-hex-string-in-swift
@@ -38,7 +42,7 @@ class NearableData{
     var previousMotionStateDuration: MotionDuration!
     var currentMotionStateDuration: MotionDuration!
     var asString: String {
-        return "nearableId: \(nearableId), temperature: \(temperature), isMoving: \(isMoving), Acc: \(acceleration), motion duration: \(previousMotionStateDuration),\(currentMotionStateDuration)"
+        return "nearableId: \(nearableId), temperature: \(temperature), isMoving: \(isMoving), Acc: \(acceleration), motion duration: \(previousMotionStateDuration.describe),\(currentMotionStateDuration.describe)"
     }
     
     init?(data: NSData){
@@ -117,3 +121,34 @@ class NearableData{
     }
 }
 
+class NearableScanner: NSObject, CBCentralManagerDelegate {
+    var centralManager:CBCentralManager!
+    var offHandler: () -> Void = {}
+
+    init(bleOffHandler: @escaping () -> Void){
+        super.init()
+        centralManager = CBCentralManager(delegate: self, queue: nil)
+        self.offHandler = bleOffHandler
+    }
+    
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if central.state == .poweredOn {
+            print("Scanning for Advertisements")
+            centralManager.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
+        }
+        else{
+            self.offHandler()
+        }
+    }
+    
+    /* Receives advertisements */
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber)
+    {
+        //print(advertisementData)
+        if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? NSData{
+            if let nearablePacket = NearableData(data: manufacturerData){
+                print(nearablePacket.asString)
+            }
+        }
+    }
+}

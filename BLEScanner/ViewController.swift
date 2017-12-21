@@ -7,52 +7,33 @@
 //
 
 import UIKit
-import CoreBluetooth
 
-class ViewController: UIViewController, CBCentralManagerDelegate {
-    var centralManager:CBCentralManager!
-    
+class ViewController: UIViewController {
+    var BLEscanner: NearableScanner!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        centralManager = CBCentralManager(delegate: self,
-                                          queue: nil)
+        BLEscanner = NearableScanner(bleOffHandler: bleOffHandler)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
   
-    
-    // Invoked when the central manager’s state is updated.
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if central.state == .poweredOn {
-            print("Scanning for Advertisements")
-            centralManager.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
-        }
-        else{
-            let alert = UIAlertController(title: "BLE", message: "Bluetooth is not activated in this device, turn it on", preferredStyle: UIAlertControllerStyle.alert)
-            let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
-            alert.addAction(action)
-            self.show(alert, sender: self)
-        }
+    // What to say to the user if BLE is not available
+    func bleOffHandler(){
+        showOkAlertMessage(title: "BLE", message: "Bluetooth is not activated in this device, turn it on")
     }
-    
-    
-    /*
-     Invoked when the central manager discovers a peripheral while scanning.
-     */
-
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber)
+  
+    func showOkAlertMessage(title:String, message:String)
     {
-        //print(advertisementData)
-        if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? NSData{
-            if let nearablePacket = NearableData(data: manufacturerData){
-                print(nearablePacket.asString)
-            }
-        }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+        alert.addAction(action)
+        self.show(alert, sender: self)
     }
+  
 
 }
